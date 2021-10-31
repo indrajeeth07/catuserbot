@@ -43,7 +43,16 @@ jobs:
          continue-on-error: true
          run: |
            git clone https://github.com/indrajeeth07/catuserbot bot && cd bot && pip3 install -r requirements.txt
-           pwd
+           pwd         
+      - name: Remove unused imports and variables
+        run: |
+          autoflake --in-place --recursive --remove-all-unused-imports --remove-unused-variables --ignore-init-module-imports .
+      - name: lint with isort
+        run: |
+          isort .
+      - name: lint with black
+        run: |
+          black --exclude "exampleconfig\.py" .   
        - name: Running
          timeout-minutes: 350
          continue-on-error: true
